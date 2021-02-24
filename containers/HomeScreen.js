@@ -41,7 +41,13 @@ export default function HomeScreen() {
         fetchData();
     }, []);
 
-    return (
+    return isLoading ? (
+        <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+            <ActivityIndicator size="large" color={red} />
+        </View>
+    ) : (
         <View style={styles.container}>
             <FlatList
                 data={data}
