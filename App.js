@@ -10,7 +10,7 @@ import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
-import RoomScreen from "./containers/RoomScreen";
+import MapScreen from "./containers/MapScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -119,7 +119,7 @@ export default function App() {
                                 </Tab.Screen>
 
                                 <Tab.Screen
-                                    name="Room"
+                                    name="Map"
                                     options={{
                                         tabBarLabel: "Around me",
                                         tabBarIcon: ({ color, size }) => (
@@ -134,8 +134,8 @@ export default function App() {
                                     {() => (
                                         <Stack.Navigator>
                                             <Stack.Screen
-                                                name="Room"
-                                                component={RoomScreen}
+                                                name="Map"
+                                                component={MapScreen}
                                             ></Stack.Screen>
                                         </Stack.Navigator>
                                     )}
