@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         backgroundColor: white,
+        paddingTop: 60,
     },
     errorMessage: {
         color: red,
