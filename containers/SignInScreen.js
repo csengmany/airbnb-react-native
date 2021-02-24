@@ -9,6 +9,7 @@ import SignButtons from "../components/SignButtons";
 import TopView from "../components/TopView";
 import Input from "../components/Input";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Logo from "../components/Logo";
 export default function SignInScreen({ setToken }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,6 +19,7 @@ export default function SignInScreen({ setToken }) {
     return (
         <KeyboardAwareScrollView style={{ backgroundColor: white }}>
             <View style={styles.container}>
+                <Logo />
                 <TopView title="Sign in" />
 
                 <Input

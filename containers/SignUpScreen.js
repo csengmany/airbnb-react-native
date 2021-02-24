@@ -7,6 +7,9 @@ import Input from "../components/Input";
 // import colors
 import colors from "../assets/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import components
+import Logo from "../components/Logo";
+
 const { red, grey, white } = colors;
 export default function SignUpScreen({ setToken }) {
     const [email, setEmail] = useState("");
@@ -21,6 +24,7 @@ export default function SignUpScreen({ setToken }) {
     return (
         <KeyboardAwareScrollView style={{ backgroundColor: white }}>
             <View style={styles.container}>
+                <Logo />
                 <TopView title="Sign up" />
 
                 <Input
