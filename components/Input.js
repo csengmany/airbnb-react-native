@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: red,
         padding: 10,
-        width: 200,
+        width: "70%",
     },
     horizontal: {
         flexDirection: "row",
