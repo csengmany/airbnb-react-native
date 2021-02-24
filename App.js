@@ -4,11 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
+import RoomScreen from "./containers/RoomScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -46,7 +48,7 @@ export default function App() {
         <NavigationContainer>
             {isLoading ? null : userToken === null ? ( // We haven't finished checking for the token yet
                 // No token found, user isn't signed in
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Navigator>
                     <Stack.Screen
                         name="SignIn"
                         options={{ animationEnabled: false }}
@@ -115,6 +117,30 @@ export default function App() {
                                         </Stack.Navigator>
                                     )}
                                 </Tab.Screen>
+
+                                <Tab.Screen
+                                    name="Room"
+                                    options={{
+                                        tabBarLabel: "Around me",
+                                        tabBarIcon: ({ color, size }) => (
+                                            <FontAwesome
+                                                name="map-marker"
+                                                size={size}
+                                                color={color}
+                                            />
+                                        ),
+                                    }}
+                                >
+                                    {() => (
+                                        <Stack.Navigator>
+                                            <Stack.Screen
+                                                name="Room"
+                                                component={RoomScreen}
+                                            ></Stack.Screen>
+                                        </Stack.Navigator>
+                                    )}
+                                </Tab.Screen>
+
                                 <Tab.Screen
                                     name="Settings"
                                     options={{
