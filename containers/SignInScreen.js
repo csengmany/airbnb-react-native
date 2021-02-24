@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Constants from "expo-constants";
 import axios from "axios";
 import {
@@ -39,9 +39,9 @@ export default function SignInScreen({ setToken }) {
                     "https://express-airbnb-api.herokuapp.com/user/log_in",
                     { email, password }
                 );
-                console.log(response);
-                const userToken = "secret-token";
-                setToken(userToken);
+                console.log(response.data.token);
+
+                setToken(response.data.token);
                 setIsLoading(false);
                 if (response) {
                     alert("You are connected");
@@ -56,6 +56,7 @@ export default function SignInScreen({ setToken }) {
             setError("Please fill all fields");
         }
     };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor={red} barStyle="light-content" />
