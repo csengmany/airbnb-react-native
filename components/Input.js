@@ -7,23 +7,26 @@ const { red, grey, white, lightGrey } = colors;
 import { Ionicons } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 
-const Input = ({ placeholder, boolean, setBoolean, onChangeText }) => {
+const Input = ({ placeholder, setFunction, secure, setSecure }) => {
     return (
         <View style={styles.horizontal}>
             <TextInput
                 style={styles.input}
                 placeholder={placeholder}
-                secureTextEntry={boolean}
-                onChangeText={onChangeText}
+                // secureTextEntry={boolean}
+                onChangeText={(text) => {
+                    setFunction(text);
+                }}
+                secureTextEntry={secure}
             />
             {(placeholder === "password" ||
                 placeholder === "confirm password") && (
                 <Ionicons
-                    name={boolean ? "eye" : "eye-off"}
+                    name={secure ? "eye" : "eye-off"}
                     size={24}
                     color={lightGrey}
                     onPress={() => {
-                        setBoolean(!boolean);
+                        setSecure(!secure);
                     }}
                     style={styles.eye}
                 />
@@ -36,10 +39,13 @@ export default Input;
 
 const styles = StyleSheet.create({
     input: {
-        borderBottomWidth: 1,
+        fontSize: 18,
         borderBottomColor: red,
-        padding: 10,
+        borderBottomWidth: 1,
         width: "70%",
+        height: 40,
+        marginTop: 20,
+        position: "relative",
     },
     horizontal: {
         flexDirection: "row",
@@ -48,7 +54,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     eye: {
-        marginLeft: -30,
-        marginTop: 3,
+        top: 30,
+        right: 60,
+        position: "absolute",
     },
 });

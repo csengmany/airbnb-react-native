@@ -1,97 +1,116 @@
 import React, { useState } from "react";
-import { Button, Text, TextInput, View, StyleSheet } from "react-native";
-import SignButtons from "../components/SignButtons";
-import TopView from "../components/TopView";
-import Input from "../components/Input";
+import Constants from "expo-constants";
+import axios from "axios";
+import {
+    Text,
+    View,
+    StyleSheet,
+    SafeAreaView,
+    Platform,
+    ActivityIndicator,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // import colors
 import colors from "../assets/colors";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+const { red, grey, white } = colors;
+
 // import components
 import Logo from "../components/Logo";
+import MainTitle from "../components/MainTitle";
+import Input from "../components/Input";
+import LargeInput from "../components/LargeInput";
+import ConnectionButton from "../components/ConnectionButton";
+import RedirectButton from "../components/RedirectButton";
 
-const { red, grey, white } = colors;
 export default function SignUpScreen({ setToken }) {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [description, setDescription] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
     const [visibility, setVisibility] = useState(true);
     const [visibility2, setVisibility2] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const submit = async () => {
+        setError("");
+        if (email && username && description && password && confirmPassword) {
+            if (password === confirmPassword) {
+                try {
+                    setIsLoading(true);
+                    const response = await axios.post(
+                        "https://express-airbnb-api.herokuapp.com/user/sign_up",
+                        { email, username, password, description }
+                    );
+                    console.log(response);
+                    const userToken = "secret-token";
+                    setToken(userToken);
+                    setIsLoading(false);
+                    if (response.data) {
+                        alert("Successful registration");
+                    } else {
+                        setError("An error occurred");
+                    }
+                } catch (error) {
+                    console.log(error.response.data.error);
 
+                    const message = error.response.data.error;
+
+                    if (message === "This email already has an account.") {
+                        setError(message);
+                    } else if (
+                        message === "This username already has an account."
+                    ) {
+                        setError(message);
+                    }
+                }
+            } else {
+                setError("Password must be the same");
+            }
+        } else {
+            setError("Please fill all fields");
+        }
+    };
     return (
-        <KeyboardAwareScrollView style={{ backgroundColor: white }}>
-            <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <KeyboardAwareScrollView
+                style={styles.scrollView}
+                contentContainerStyle={styles.scrollViewContent}
+            >
                 <Logo />
-                <TopView title="Sign up" />
+                <MainTitle text="Sign up" />
 
-                <Input
-                    placeholder="email"
-                    boolean={false}
-                    onChangeText={(email) => {
-                        setEmail(email);
-                    }}
-                />
-                <Input
-                    placeholder="username"
-                    boolean={false}
-                    onChangeText={(username) => {
-                        setUsername(username);
-                    }}
-                />
-                <TextInput
-                    style={styles.textArea}
-                    placeholder="Describe yourself in a few words..."
-                    multiline={true}
-                    editable
-                    maxLength={200}
-                    onChangeText={(description) => {
-                        setDescription(description);
-                    }}
-                />
+                <Input placeholder="email" setFunction={setEmail} />
+                <Input placeholder="username" setFunction={setUsername} />
+                <LargeInput setFunction={setDescription} />
                 <Input
                     placeholder="password"
-                    boolean={visibility}
-                    setBoolean={setVisibility}
-                    onChangeText={(password) => {
-                        console.log("pass", password);
-                        setPassword(password);
-                    }}
+                    secure={visibility}
+                    setSecure={setVisibility}
+                    setFunction={setPassword}
                 />
                 <Input
                     placeholder="confirm password"
-                    boolean={visibility2}
-                    setBoolean={setVisibility2}
-                    onChangeText={(confirmPassword) => {
-                        console.log("confirm pass", confirmPassword);
-                        setConfirmPassword(confirmPassword);
-                    }}
+                    secure={visibility2}
+                    setSecure={setVisibility2}
+                    setFunction={setConfirmPassword}
                 />
 
-                <Text style={styles.errorMessage}>{message}</Text>
-                <SignButtons
-                    setToken={setToken}
-                    name={"Sign up"}
-                    or={"Already have an account ? Sign in"}
-                    to={"SignIn"}
-                    request="https://express-airbnb-api.herokuapp.com/user/sign_up"
-                    headers={{
-                        email: email,
-                        username: username,
-                        description: description,
-                        password: password,
-                    }}
-                    email={email}
-                    password={password}
-                    setMessage={setMessage}
-                    confirmPassword={confirmPassword}
-                    username={username}
-                    description={description}
+                <Text style={styles.errorMessage}>{error}</Text>
+
+                <ConnectionButton text="Sign up" submitFunction={submit} />
+                {isLoading && (
+                    <View>
+                        <ActivityIndicator size="large" color={red} />
+                    </View>
+                )}
+                <RedirectButton
+                    text="Already have an account? Sign in"
+                    screen="SignIn"
                 />
-            </View>
-        </KeyboardAwareScrollView>
+            </KeyboardAwareScrollView>
+        </SafeAreaView>
     );
 }
 
@@ -101,18 +120,16 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         backgroundColor: white,
-        paddingTop: 60,
     },
-    textArea: {
-        borderColor: red,
-        borderWidth: 1,
-        padding: 10,
-        height: 100,
-        width: 200,
-        marginVertical: 20,
+    scrollView: {
+        marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
+    },
+    scrollViewContent: {
+        alignItems: "center",
     },
     errorMessage: {
         color: red,
-        marginVertical: 10,
+        marginTop: 20,
+        fontSize: 12,
     },
 });

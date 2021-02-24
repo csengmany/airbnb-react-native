@@ -1,60 +1,93 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import Constants from "expo-constants";
+import axios from "axios";
+import {
+    Text,
+    View,
+    StyleSheet,
+    ActivityIndicator,
+    SafeAreaView,
+    Platform,
+    StatusBar,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // import colors
 import colors from "../assets/colors";
 const { red, grey, white } = colors;
+
 // import components
-import SignButtons from "../components/SignButtons";
-import TopView from "../components/TopView";
-import Input from "../components/Input";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Logo from "../components/Logo";
+import MainTitle from "../components/MainTitle";
+import Input from "../components/Input";
+import ConnectionButton from "../components/ConnectionButton";
+import RedirectButton from "../components/RedirectButton";
+
 export default function SignInScreen({ setToken }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
     const [visibility, setVisibility] = useState(true);
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
+    const submit = async () => {
+        setError("");
+        if (email && password) {
+            try {
+                setIsLoading(true);
+                const response = await axios.post(
+                    "https://express-airbnb-api.herokuapp.com/user/log_in",
+                    { email, password }
+                );
+                console.log(response);
+                const userToken = "secret-token";
+                setToken(userToken);
+                setIsLoading(false);
+                if (response) {
+                    alert("You are connected");
+                } else {
+                    setError("An error occurred");
+                }
+            } catch (error) {
+                console.log(error.response.data.error);
+                setError(error.response.data.error);
+            }
+        } else {
+            setError("Please fill all fields");
+        }
+    };
     return (
-        <KeyboardAwareScrollView style={{ backgroundColor: white }}>
-            <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <StatusBar backgroundColor={red} barStyle="light-content" />
+            <KeyboardAwareScrollView
+                style={styles.scrollView}
+                contentContainerStyle={styles.scrollViewContent}
+            >
                 <Logo />
-                <TopView title="Sign in" />
-
+                <MainTitle text="Sign in" />
                 <Input
                     placeholder="email"
                     boolean={false}
-                    onChangeText={(email) => {
-                        console.log("email", email);
-                        setEmail(email);
-                    }}
+                    setFunction={setEmail}
                 />
                 <Input
                     placeholder="password"
-                    boolean={visibility}
-                    setBoolean={setVisibility}
-                    onChangeText={(password) => {
-                        console.log("password", password);
-                        setPassword(password);
-                    }}
+                    secure={visibility}
+                    setSecure={setVisibility}
+                    setFunction={setPassword}
                 />
 
-                <Text style={styles.errorMessage}>{message}</Text>
+                <Text style={styles.errorMessage}>{error}</Text>
 
-                <SignButtons
-                    setToken={setToken}
-                    name="Sign in"
-                    or="No account ? Register"
-                    to="SignUp"
-                    email={email}
-                    password={password}
-                    setMessage={setMessage}
-                    request="https://express-airbnb-api.herokuapp.com/user/log_in"
-                    headers={{ email: email, password: password }}
-                />
-            </View>
-        </KeyboardAwareScrollView>
+                <ConnectionButton text="Sign in" submitFunction={submit} />
+                {isLoading && (
+                    <View>
+                        <ActivityIndicator size="large" color={red} />
+                    </View>
+                )}
+                <RedirectButton text="No account? Register" screen="SignUp" />
+            </KeyboardAwareScrollView>
+        </SafeAreaView>
     );
 }
 const styles = StyleSheet.create({
@@ -63,10 +96,16 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         backgroundColor: white,
-        paddingTop: 60,
+    },
+    scrollView: {
+        marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
+    },
+    scrollViewContent: {
+        alignItems: "center",
     },
     errorMessage: {
         color: red,
-        marginVertical: 10,
+        marginTop: 20,
+        fontSize: 12,
     },
 });
