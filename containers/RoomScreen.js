@@ -8,6 +8,7 @@ import {
     FlatList,
     Dimensions,
     Image,
+    StatusBar,
 } from "react-native";
 import MapView from "react-native-maps";
 import { useState, useEffect } from "react";
@@ -68,6 +69,11 @@ export default function RoomScreen({ route, navigation }) {
         </View>
     ) : (
         <ScrollView style={styles.container}>
+            <StatusBar
+                backgroundColor={yellow}
+                barStyle={Platform.OS === "android" ? "light-content" : "dark"}
+            />
+
             <View style={styles.photos}>
                 <FlatList
                     horizontal={true}
