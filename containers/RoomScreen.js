@@ -9,13 +9,14 @@ import {
     Dimensions,
     Image,
 } from "react-native";
+import MapView from "react-native-maps";
 import { useState, useEffect } from "react";
 import axios from "axios";
 // import icon
 import { Entypo } from "@expo/vector-icons";
 // import colors
 import colors from "../assets/colors";
-import { TextInput } from "react-native-gesture-handler";
+
 const { red, grey, lightGrey, white, yellow } = colors;
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -120,6 +121,26 @@ export default function RoomScreen({ route, navigation }) {
                     {data.description}
                 </Text>
             </View>
+            <MapView
+                style={{ flex: 1 }}
+                initialRegion={{
+                    latitude: 48.86234379578587,
+                    longitude: 2.3355256732980734,
+                    latitudeDelta: 0.09,
+                    longitudeDelta: 0.09,
+                }}
+                showsUserLocation={true}
+            >
+                <MapView.Marker
+                    key={data._id}
+                    coordinate={{
+                        latitude: data.location[1],
+                        longitude: data.location[0],
+                    }}
+                    title={data.title}
+                    description={data.description}
+                />
+            </MapView>
         </View>
     );
 }
