@@ -44,18 +44,15 @@ export default function SignUpScreen({ setToken }) {
                         "https://express-airbnb-api.herokuapp.com/user/sign_up",
                         { email, username, password, description }
                     );
-                    console.log(response.data.token);
 
-                    // const userToken = "secret-token";
-                    // setToken(userToken);
-                    // setIsLoading(false);
                     if (response.data) {
                         // alert("Successful registration");
+                        setIsLoading(false);
                         setToken(response.data.token);
                     } else {
+                        setIsLoading(false);
                         setError("An error occurred");
                     }
-                    setIsLoading(false);
                 } catch (error) {
                     console.log(error.response.data.error);
 

@@ -39,20 +39,18 @@ export default function SignInScreen({ setToken }) {
                     "https://express-airbnb-api.herokuapp.com/user/log_in",
                     { email, password }
                 );
-                console.log(response.data.token);
 
-                // setToken(response.data.token);
-                // setIsLoading(false);
                 if (response) {
                     // alert("You are connected");
+                    setIsLoading(false);
                     setToken(response.data.token);
                 } else {
                     setError("An error occurred");
                 }
-                setIsLoading(false);
             } catch (error) {
                 console.log(error.response.data.error);
                 setError(error.response.data.error);
+                setIsLoading(false);
             }
         } else {
             setError("Please fill all fields");

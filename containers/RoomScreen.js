@@ -25,7 +25,6 @@ const height = Dimensions.get("window").height;
 
 export default function RoomScreen({ route, navigation }) {
     const { itemId } = route.params;
-    // console.log(route.params.itemId);
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
     const [displayFullText, setDisplayFullText] = useState(false);
@@ -52,7 +51,6 @@ export default function RoomScreen({ route, navigation }) {
                 const response = await axios.get(
                     `https://express-airbnb-api.herokuapp.com/rooms/${itemId}`
                 );
-                // console.log(response.data);
                 setData(response.data);
                 setIsLoading(false);
             } catch (error) {
@@ -76,6 +74,7 @@ export default function RoomScreen({ route, navigation }) {
                     showsHorizontalScrollIndicator={false}
                     style={{ backgroundColor: white }}
                     data={data.photos}
+                    keyExtractor={(item) => item.picture_id}
                     renderItem={({ item }) => {
                         return (
                             <Image
@@ -87,7 +86,6 @@ export default function RoomScreen({ route, navigation }) {
                             />
                         );
                     }}
-                    keyExtractor={(item) => item._id}
                 ></FlatList>
                 <View style={styles.price}>
                     <Text style={styles.priceText}>{data.price} €</Text>
