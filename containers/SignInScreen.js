@@ -41,13 +41,15 @@ export default function SignInScreen({ setToken }) {
                 );
                 console.log(response.data.token);
 
-                setToken(response.data.token);
-                setIsLoading(false);
+                // setToken(response.data.token);
+                // setIsLoading(false);
                 if (response) {
-                    alert("You are connected");
+                    // alert("You are connected");
+                    setToken(response.data.token);
                 } else {
                     setError("An error occurred");
                 }
+                setIsLoading(false);
             } catch (error) {
                 console.log(error.response.data.error);
                 setError(error.response.data.error);

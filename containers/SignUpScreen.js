@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Constants from "expo-constants";
 import axios from "axios";
 import {
@@ -33,6 +33,7 @@ export default function SignUpScreen({ setToken }) {
     const [visibility, setVisibility] = useState(true);
     const [visibility2, setVisibility2] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+
     const submit = async () => {
         setError("");
         if (email && username && description && password && confirmPassword) {
@@ -43,15 +44,18 @@ export default function SignUpScreen({ setToken }) {
                         "https://express-airbnb-api.herokuapp.com/user/sign_up",
                         { email, username, password, description }
                     );
-                    console.log(response);
-                    const userToken = "secret-token";
-                    setToken(userToken);
-                    setIsLoading(false);
+                    console.log(response.data.token);
+
+                    // const userToken = "secret-token";
+                    // setToken(userToken);
+                    // setIsLoading(false);
                     if (response.data) {
-                        alert("Successful registration");
+                        // alert("Successful registration");
+                        setToken(response.data.token);
                     } else {
                         setError("An error occurred");
                     }
+                    setIsLoading(false);
                 } catch (error) {
                     console.log(error.response.data.error);
 

@@ -56,7 +56,7 @@ export default function App() {
         <NavigationContainer>
             {isLoading ? null : userToken === null ? ( // We haven't finished checking for the token yet
                 // No token found, user isn't signed in
-                <Stack.Navigator headerMode="none">
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
                     <Stack.Screen
                         name="SignIn"
                         options={{ animationEnabled: false }}
@@ -69,13 +69,18 @@ export default function App() {
                 </Stack.Navigator>
             ) : (
                 // User is signed in
-                <Stack.Navigator>
+                <Stack.Navigator
+                    screenOptions={{
+                        headerTitle: (props) => <Logo {...props} size={30} />,
+                        headerTitleAlign: "center",
+                    }}
+                >
                     <Stack.Screen
                         name="Tab"
-                        options={{
-                            headerShown: false,
-                            animationEnabled: false,
-                        }}
+                        // options={{
+                        //     headerShown: false,
+                        //     animationEnabled: false,
+                        // }}
                     >
                         {() => (
                             <Tab.Navigator
@@ -98,29 +103,13 @@ export default function App() {
                                     }}
                                 >
                                     {() => (
-                                        <Stack.Navigator>
-                                            <Stack.Screen
-                                                name="Home"
-                                                options={{
-                                                    headerTitle: (props) => (
-                                                        <Logo
-                                                            {...props}
-                                                            size={30}
-                                                        />
-                                                    ),
-                                                    headerTitleAlign: "center",
-                                                }}
-                                            >
+                                        <Stack.Navigator headerMode={false}>
+                                            <Stack.Screen name="Home">
                                                 {(props) => (
                                                     <HomeScreen {...props} />
                                                 )}
                                             </Stack.Screen>
-                                            <Stack.Screen
-                                                name="Room"
-                                                options={{
-                                                    animationEnabled: false,
-                                                }}
-                                            >
+                                            <Stack.Screen name="Room">
                                                 {(props) => (
                                                     <RoomScreen {...props} />
                                                 )}
@@ -152,19 +141,10 @@ export default function App() {
                                     }}
                                 >
                                     {() => (
-                                        <Stack.Navigator>
+                                        <Stack.Navigator headerMode={false}>
                                             <Stack.Screen
                                                 name="Map"
                                                 component={MapScreen}
-                                                options={{
-                                                    headerTitle: (props) => (
-                                                        <Logo
-                                                            {...props}
-                                                            size={30}
-                                                        />
-                                                    ),
-                                                    headerTitleAlign: "center",
-                                                }}
                                             ></Stack.Screen>
                                         </Stack.Navigator>
                                     )}
@@ -188,15 +168,9 @@ export default function App() {
                                             <Stack.Screen
                                                 name="Profile"
                                                 options={{
-                                                    headerTitle: (props) => (
-                                                        <Logo
-                                                            {...props}
-                                                            size={30}
-                                                        />
-                                                    ),
                                                     headerTitleAlign: "center",
-                                                    // title: "Profile",
-                                                    // tabBarLabel: "Profile",
+                                                    title: "Profile",
+                                                    tabBarLabel: "Profile",
                                                 }}
                                             >
                                                 {() => (
@@ -208,38 +182,6 @@ export default function App() {
                                         </Stack.Navigator>
                                     )}
                                 </Tab.Screen>
-
-                                {/* <Tab.Screen
-                                    name="Settings"
-                                    options={{
-                                        tabBarLabel: "Settings",
-                                        tabBarIcon: ({ color, size }) => (
-                                            <Ionicons
-                                                name={"ios-options"}
-                                                size={size}
-                                                color={color}
-                                            />
-                                        ),
-                                    }}
-                                >
-                                    {() => (
-                                        <Stack.Navigator>
-                                            <Stack.Screen
-                                                name="Settings"
-                                                options={{
-                                                    title: "Settings",
-                                                    tabBarLabel: "Settings",
-                                                }}
-                                            >
-                                                {() => (
-                                                    <SettingsScreen
-                                                        setToken={setToken}
-                                                    />
-                                                )}
-                                            </Stack.Screen>
-                                        </Stack.Navigator>
-                                    )}
-                                </Tab.Screen> */}
                             </Tab.Navigator>
                         )}
                     </Stack.Screen>
