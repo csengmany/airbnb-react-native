@@ -14,8 +14,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // import icon
 import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 // import colors
 import colors from "../assets/colors";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const { red, grey, lightGrey, white, yellow } = colors;
 const width = Dimensions.get("window").width;
@@ -50,7 +52,7 @@ export default function RoomScreen({ route, navigation }) {
                 const response = await axios.get(
                     `https://express-airbnb-api.herokuapp.com/rooms/${itemId}`
                 );
-                console.log(response.data);
+                // console.log(response.data);
                 setData(response.data);
                 setIsLoading(false);
             } catch (error) {
@@ -67,10 +69,11 @@ export default function RoomScreen({ route, navigation }) {
             <ActivityIndicator size="large" color={red} />
         </View>
     ) : (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.photos}>
                 <FlatList
-                    // horizontal={true}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
                     style={{ backgroundColor: white }}
                     data={data.photos}
                     renderItem={({ item }) => {
@@ -91,7 +94,10 @@ export default function RoomScreen({ route, navigation }) {
             <View style={styles.informationsSection}>
                 <View style={styles.informations}>
                     <View style={styles.informationsDetails}>
-                        <Text style={styles.title} numberOfLines={1}>
+                        <Text
+                            style={styles.title}
+                            numberOfLines={!displayFullText ? 1 : null}
+                        >
                             {data.title}
                         </Text>
                         <View>
@@ -114,20 +120,38 @@ export default function RoomScreen({ route, navigation }) {
                 <Text
                     style={styles.description}
                     numberOfLines={!displayFullText ? 3 : null}
+                >
+                    {data.description}
+                </Text>
+                <TouchableWithoutFeedback
                     onPress={() => {
                         setDisplayFullText(!displayFullText);
                     }}
                 >
-                    {data.description}
-                </Text>
+                    <View style={styles.horizontalSection}>
+                        <Text style={{ color: grey, marginRight: 5 }}>
+                            Show {displayFullText ? "less" : "more"}
+                        </Text>
+                        {displayFullText ? (
+                            <AntDesign name="caretup" size={14} color={grey} />
+                        ) : (
+                            <AntDesign
+                                name="caretdown"
+                                size={14}
+                                color={grey}
+                            />
+                        )}
+                    </View>
+                </TouchableWithoutFeedback>
             </View>
+
             <MapView
-                style={{ flex: 1 }}
+                style={styles.mapView}
                 initialRegion={{
                     latitude: 48.86234379578587,
                     longitude: 2.3355256732980734,
-                    latitudeDelta: 0.09,
-                    longitudeDelta: 0.09,
+                    latitudeDelta: 0.1,
+                    longitudeDelta: 0.1,
                 }}
                 showsUserLocation={true}
             >
@@ -141,7 +165,7 @@ export default function RoomScreen({ route, navigation }) {
                     description={data.description}
                 />
             </MapView>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -151,7 +175,7 @@ const styles = StyleSheet.create({
         backgroundColor: white,
     },
     bgImage: {
-        width: "100%",
+        width: width,
         height: 200,
         justifyContent: "flex-end",
     },
@@ -175,7 +199,6 @@ const styles = StyleSheet.create({
     informations: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginTop: 10,
     },
     informationsDetails: {
         flex: 1,
@@ -201,6 +224,13 @@ const styles = StyleSheet.create({
     photos: {
         flexDirection: "row",
         flexWrap: "nowrap",
+        height: 200,
+        width: "100%",
+    },
+    horizontalSection: {
+        flexDirection: "row",
+    },
+    mapView: {
         height: 200,
         width: "100%",
     },
