@@ -118,7 +118,6 @@ export default function HomeScreen({ navigation }) {
                 );
             }}
         ></FlatList>
-        // </View>
     );
 }
 const styles = StyleSheet.create({
@@ -160,6 +159,7 @@ const styles = StyleSheet.create({
     informationsDetails: {
         flex: 1,
         justifyContent: "space-around",
+        marginRight: 5,
     },
     rating: {
         flexDirection: "row",
