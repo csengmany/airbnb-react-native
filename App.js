@@ -151,10 +151,11 @@ export default function App() {
                                                 headerTitleAlign: "center",
                                             }}
                                         >
-                                            <Stack.Screen
-                                                name="Map"
-                                                component={MapScreen}
-                                            ></Stack.Screen>
+                                            <Stack.Screen name="Map">
+                                                {(props) => (
+                                                    <MapScreen {...props} />
+                                                )}
+                                            </Stack.Screen>
                                         </Stack.Navigator>
                                     )}
                                 </Tab.Screen>
