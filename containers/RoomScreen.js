@@ -89,6 +89,9 @@ export default function RoomScreen({ route, navigation }) {
                     }}
                     keyExtractor={(item) => item._id}
                 ></FlatList>
+                <View style={styles.price}>
+                    <Text style={styles.priceText}>{data.price} €</Text>
+                </View>
             </View>
 
             <View style={styles.informationsSection}>
@@ -178,6 +181,7 @@ const styles = StyleSheet.create({
         width: width,
         height: 200,
         justifyContent: "flex-end",
+        position: "relative",
     },
     price: {
         backgroundColor: "black",
@@ -186,6 +190,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 20,
+        position: "absolute",
+        bottom: 5,
     },
     priceText: {
         color: white,
