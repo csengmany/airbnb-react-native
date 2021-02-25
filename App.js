@@ -77,10 +77,10 @@ export default function App() {
                 >
                     <Stack.Screen
                         name="Tab"
-                        // options={{
-                        //     headerShown: false,
-                        //     animationEnabled: false,
-                        // }}
+                        options={{
+                            headerShown: false,
+                            animationEnabled: false,
+                        }}
                     >
                         {() => (
                             <Tab.Navigator
@@ -103,7 +103,15 @@ export default function App() {
                                     }}
                                 >
                                     {() => (
-                                        <Stack.Navigator headerMode={false}>
+                                        <Stack.Navigator
+                                            // headerMode={false}
+                                            screenOptions={{
+                                                headerTitle: () => (
+                                                    <Logo size={30} />
+                                                ),
+                                                headerTitleAlign: "center",
+                                            }}
+                                        >
                                             <Stack.Screen name="Home">
                                                 {(props) => (
                                                     <HomeScreen {...props} />
@@ -114,15 +122,6 @@ export default function App() {
                                                     <RoomScreen {...props} />
                                                 )}
                                             </Stack.Screen>
-
-                                            {/* <Stack.Screen
-                                                name="Profile"
-                                                options={{
-                                                    title: "User Profile",
-                                                }}
-                                            >
-                                                {() => <ProfileScreen />}
-                                            </Stack.Screen> */}
                                         </Stack.Navigator>
                                     )}
                                 </Tab.Screen>
@@ -141,7 +140,17 @@ export default function App() {
                                     }}
                                 >
                                     {() => (
-                                        <Stack.Navigator headerMode={false}>
+                                        <Stack.Navigator
+                                            screenOptions={{
+                                                headerTitle: (props) => (
+                                                    <Logo
+                                                        {...props}
+                                                        size={30}
+                                                    />
+                                                ),
+                                                headerTitleAlign: "center",
+                                            }}
+                                        >
                                             <Stack.Screen
                                                 name="Map"
                                                 component={MapScreen}
@@ -164,7 +173,17 @@ export default function App() {
                                     }}
                                 >
                                     {() => (
-                                        <Stack.Navigator>
+                                        <Stack.Navigator
+                                            screenOptions={{
+                                                headerTitle: (props) => (
+                                                    <Logo
+                                                        {...props}
+                                                        size={30}
+                                                    />
+                                                ),
+                                                headerTitleAlign: "center",
+                                            }}
+                                        >
                                             <Stack.Screen
                                                 name="Profile"
                                                 options={{
