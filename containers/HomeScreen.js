@@ -36,7 +36,8 @@ export default function HomeScreen({ navigation }) {
                 setData(response.data);
                 setIsLoading(false);
             } catch (error) {
-                console.log(error.message);
+                // console.log(error.response.data.error);
+                alert("An error occured");
             }
         };
         fetchData();
