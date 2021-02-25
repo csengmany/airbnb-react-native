@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import navagiation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+// import bottom tab navigation
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import icons
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+// import containers
 import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import MapScreen from "./containers/MapScreen";
+import RoomScreen from "./containers/RoomScreen";
+// import components
+import Logo from "./components/Logo";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -94,26 +102,38 @@ export default function App() {
                                             <Stack.Screen
                                                 name="Home"
                                                 options={{
-                                                    title: "My App",
-                                                    headerStyle: {
-                                                        backgroundColor: "red",
-                                                    },
-                                                    headerTitleStyle: {
-                                                        color: "white",
-                                                    },
+                                                    headerTitle: (props) => (
+                                                        <Logo
+                                                            {...props}
+                                                            size={30}
+                                                        />
+                                                    ),
+                                                    headerTitleAlign: "center",
                                                 }}
                                             >
-                                                {() => <HomeScreen />}
+                                                {(props) => (
+                                                    <HomeScreen {...props} />
+                                                )}
+                                            </Stack.Screen>
+                                            <Stack.Screen
+                                                name="Room"
+                                                options={{
+                                                    animationEnabled: false,
+                                                }}
+                                            >
+                                                {(props) => (
+                                                    <RoomScreen {...props} />
+                                                )}
                                             </Stack.Screen>
 
-                                            <Stack.Screen
+                                            {/* <Stack.Screen
                                                 name="Profile"
                                                 options={{
                                                     title: "User Profile",
                                                 }}
                                             >
                                                 {() => <ProfileScreen />}
-                                            </Stack.Screen>
+                                            </Stack.Screen> */}
                                         </Stack.Navigator>
                                     )}
                                 </Tab.Screen>
@@ -136,12 +156,60 @@ export default function App() {
                                             <Stack.Screen
                                                 name="Map"
                                                 component={MapScreen}
+                                                options={{
+                                                    headerTitle: (props) => (
+                                                        <Logo
+                                                            {...props}
+                                                            size={30}
+                                                        />
+                                                    ),
+                                                    headerTitleAlign: "center",
+                                                }}
                                             ></Stack.Screen>
                                         </Stack.Navigator>
                                     )}
                                 </Tab.Screen>
 
                                 <Tab.Screen
+                                    name="Profile"
+                                    options={{
+                                        tabBarLabel: "Profile",
+                                        tabBarIcon: ({ color, size }) => (
+                                            <FontAwesome5
+                                                name="user-alt"
+                                                size={size}
+                                                color={color}
+                                            />
+                                        ),
+                                    }}
+                                >
+                                    {() => (
+                                        <Stack.Navigator>
+                                            <Stack.Screen
+                                                name="Profile"
+                                                options={{
+                                                    headerTitle: (props) => (
+                                                        <Logo
+                                                            {...props}
+                                                            size={30}
+                                                        />
+                                                    ),
+                                                    headerTitleAlign: "center",
+                                                    // title: "Profile",
+                                                    // tabBarLabel: "Profile",
+                                                }}
+                                            >
+                                                {() => (
+                                                    <SettingsScreen
+                                                        setToken={setToken}
+                                                    />
+                                                )}
+                                            </Stack.Screen>
+                                        </Stack.Navigator>
+                                    )}
+                                </Tab.Screen>
+
+                                {/* <Tab.Screen
                                     name="Settings"
                                     options={{
                                         tabBarLabel: "Settings",
@@ -171,7 +239,7 @@ export default function App() {
                                             </Stack.Screen>
                                         </Stack.Navigator>
                                     )}
-                                </Tab.Screen>
+                                </Tab.Screen> */}
                             </Tab.Navigator>
                         )}
                     </Stack.Screen>

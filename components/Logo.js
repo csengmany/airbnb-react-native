@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 
-export default function Logo() {
+export default function Logo({ size }) {
     return (
         <Image
             source={require("../assets/logo.png")}
-            style={styles.logo}
+            style={[size ? { width: size, height: size } : styles.logo]}
             resizeMode="contain"
         />
     );

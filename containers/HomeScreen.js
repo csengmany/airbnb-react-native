@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/core";
+
 import {
     View,
     Text,
@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+// import icon
 import { Entypo } from "@expo/vector-icons";
 // import colors
 import colors from "../assets/colors";
@@ -20,8 +21,8 @@ const { red, grey, lightGrey, white, yellow } = colors;
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
-export default function HomeScreen() {
-    const navigation = useNavigation();
+
+export default function HomeScreen({ navigation }) {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
@@ -31,7 +32,7 @@ export default function HomeScreen() {
                 const response = await axios.get(
                     "https://express-airbnb-api.herokuapp.com/rooms"
                 );
-                console.log(response.data);
+                // console.log(response.data);
                 setData(response.data);
                 setIsLoading(false);
             } catch (error) {
@@ -78,7 +79,14 @@ export default function HomeScreen() {
                                 </View>
                                 <Text style={styles.price}>{item.price} €</Text>
                             </ScrollView>
-                            <TouchableOpacity style={styles.description}>
+                            <TouchableOpacity
+                                style={styles.description}
+                                onPress={() =>
+                                    navigation.navigate("Room", {
+                                        itemId: item._id,
+                                    })
+                                }
+                            >
                                 <View style={styles.descriptionTxt}>
                                     <Text
                                         style={styles.title}
