@@ -9,6 +9,7 @@ import {
     Image,
     ActivityIndicator,
     Dimensions,
+    ImageBackground,
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -24,11 +25,10 @@ const height = Dimensions.get("window").height;
 
 export default function HomeScreen({ navigation }) {
     const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setIsLoading(true);
                 const response = await axios.get(
                     "https://express-airbnb-api.herokuapp.com/rooms"
                 );
@@ -61,7 +61,15 @@ export default function HomeScreen({ navigation }) {
                         undefined
                     );
                     return (
-                        <View style={styles.card}>
+                        <TouchableOpacity
+                            style={styles.card}
+                            onPress={() =>
+                                navigation.navigate("Room", {
+                                    itemId: item._id,
+                                })
+                            }
+                        >
+                            {/* <ImageBackground style={styles.bgImg} source={{ uri: "https://a2.muscache.com/im/pictures/a560cdc0-425d-4d7b-ab8a-f98481eeb23f.jpg" }} */}
                             <ScrollView
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
@@ -80,14 +88,8 @@ export default function HomeScreen({ navigation }) {
                                 </View>
                                 <Text style={styles.price}>{item.price} €</Text>
                             </ScrollView>
-                            <TouchableOpacity
-                                style={styles.description}
-                                onPress={() =>
-                                    navigation.navigate("Room", {
-                                        itemId: item._id,
-                                    })
-                                }
-                            >
+
+                            <View style={styles.description}>
                                 <View style={styles.descriptionTxt}>
                                     <Text
                                         style={styles.title}
@@ -130,8 +132,8 @@ export default function HomeScreen({ navigation }) {
                                         uri: item.user.account.photo.url,
                                     }}
                                 />
-                            </TouchableOpacity>
-                        </View>
+                            </View>
+                        </TouchableOpacity>
                     );
                 }}
                 keyExtractor={(item) => item._id}
@@ -199,5 +201,9 @@ const styles = StyleSheet.create({
     greyTxt: {
         color: lightGrey,
         fontSize: 14,
+    },
+    bgImg: {
+        width: "100%",
+        height: 200,
     },
 });
