@@ -26,16 +26,29 @@ const Stack = createStackNavigator();
 export default function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
-    const [id, setId] = useState("");
+    const [userId, setUserId] = useState(null);
 
+    // save or remove userToken
     const setToken = async (token) => {
         if (token) {
+            console.log("userToken=>", token);
             AsyncStorage.setItem("userToken", token);
+            setUserToken(token);
         } else {
             AsyncStorage.removeItem("userToken");
+            setUserToken(null);
         }
-
-        setUserToken(token);
+    };
+    // save or remove userId
+    const setId = async (id) => {
+        if (id) {
+            console.log("userId=>", id);
+            AsyncStorage.setItem("userId", id);
+            setUserId(id);
+        } else {
+            AsyncStorage.removeItem("userId");
+            setUserId(null);
+        }
     };
 
     useEffect(() => {
@@ -62,10 +75,14 @@ export default function App() {
                         name="SignIn"
                         options={{ animationEnabled: false }}
                     >
-                        {() => <SignInScreen setToken={setToken} />}
+                        {() => (
+                            <SignInScreen setToken={setToken} setId={setId} />
+                        )}
                     </Stack.Screen>
                     <Stack.Screen name="SignUp">
-                        {() => <SignUpScreen setToken={setToken} />}
+                        {() => (
+                            <SignUpScreen setToken={setToken} setId={setId} />
+                        )}
                     </Stack.Screen>
                 </Stack.Navigator>
             ) : (

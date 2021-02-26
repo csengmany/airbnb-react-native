@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Constants from "expo-constants";
 import axios from "axios";
 import {
@@ -23,7 +23,7 @@ import Input from "../components/Input";
 import ConnectionButton from "../components/ConnectionButton";
 import RedirectButton from "../components/RedirectButton";
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ setToken, setId }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visibility, setVisibility] = useState(true);
@@ -31,8 +31,10 @@ export default function SignInScreen({ setToken }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const submit = async () => {
-        setError("");
         if (email && password) {
+            if (error !== "") {
+                setError("");
+            }
             try {
                 setIsLoading(true);
                 const response = await axios.post(
@@ -44,12 +46,17 @@ export default function SignInScreen({ setToken }) {
                     // alert("You are connected");
                     setIsLoading(false);
                     setToken(response.data.token);
+                    setId(response.data.id);
                 } else {
                     setError("An error occurred");
                 }
             } catch (error) {
-                console.log(error.response.data.error);
-                setError(error.response.data.error);
+                if (error.response.status === 401) {
+                    setError("Incorrect credentials");
+                } else {
+                    setError("An error occurred");
+                }
+
                 setIsLoading(false);
             }
         } else {
@@ -59,7 +66,11 @@ export default function SignInScreen({ setToken }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={red} barStyle="light-content" />
+            <StatusBar
+                barStyle={
+                    Platform.OS === "ios" ? "dark-content" : "light-content"
+                }
+            />
             <KeyboardAwareScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollViewContent}
