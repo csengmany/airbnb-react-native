@@ -27,7 +27,13 @@ const { red, grey, lightGrey, white, yellow } = colors;
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-export default function RoomScreen({ route, navigation, id, setId }) {
+export default function RoomScreen({
+    route,
+    navigation,
+    roomId,
+    setRoomId,
+    id,
+}) {
     const { itemId } = route.params;
 
     const [isLoading, setIsLoading] = useState(true);
@@ -51,8 +57,8 @@ export default function RoomScreen({ route, navigation, id, setId }) {
         return tab;
     };
     useEffect(() => {
-        setId(itemId);
-        console.log("mon id", id);
+        setRoomId(itemId);
+        console.log("mon roomid", roomId);
         const fetchData = async () => {
             try {
                 const response = await axios.get(
@@ -65,7 +71,7 @@ export default function RoomScreen({ route, navigation, id, setId }) {
             }
         };
         fetchData();
-    }, [setIsLoading, itemId, id, setId]);
+    }, [setIsLoading, itemId, roomId, setRoomId]);
 
     return isLoading ? (
         <View

@@ -27,6 +27,8 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
     const [userId, setUserId] = useState(null);
+    // state for id room
+    const [roomId, setRoomId] = useState("");
 
     // save or remove userToken
     const setToken = async (token) => {
@@ -138,8 +140,8 @@ export default function App() {
                                                 {(props) => (
                                                     <RoomScreen
                                                         {...props}
-                                                        setId={setId}
-                                                        id={id}
+                                                        setRoomId={setRoomId}
+                                                        roomId={roomId}
                                                     />
                                                 )}
                                             </Stack.Screen>
@@ -176,8 +178,8 @@ export default function App() {
                                                 {(props) => (
                                                     <MapScreen
                                                         {...props}
-                                                        setId={setId}
-                                                        id={id}
+                                                        setRoomId={setRoomId}
+                                                        roomId={roomId}
                                                     />
                                                 )}
                                             </Stack.Screen>
