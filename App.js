@@ -26,6 +26,7 @@ const Stack = createStackNavigator();
 export default function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
+    const [id, setId] = useState("");
 
     const setToken = async (token) => {
         if (token) {
@@ -112,14 +113,17 @@ export default function App() {
                                                 headerTitleAlign: "center",
                                             }}
                                         >
-                                            <Stack.Screen name="Home">
-                                                {(props) => (
-                                                    <HomeScreen {...props} />
-                                                )}
-                                            </Stack.Screen>
+                                            <Stack.Screen
+                                                name="Home"
+                                                component={HomeScreen}
+                                            ></Stack.Screen>
                                             <Stack.Screen name="Room">
                                                 {(props) => (
-                                                    <RoomScreen {...props} />
+                                                    <RoomScreen
+                                                        {...props}
+                                                        setId={setId}
+                                                        id={id}
+                                                    />
                                                 )}
                                             </Stack.Screen>
                                         </Stack.Navigator>
@@ -153,7 +157,11 @@ export default function App() {
                                         >
                                             <Stack.Screen name="Map">
                                                 {(props) => (
-                                                    <MapScreen {...props} />
+                                                    <MapScreen
+                                                        {...props}
+                                                        setId={setId}
+                                                        id={id}
+                                                    />
                                                 )}
                                             </Stack.Screen>
                                         </Stack.Navigator>

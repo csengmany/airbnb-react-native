@@ -11,6 +11,8 @@ import {
     Dimensions,
     ImageBackground,
 } from "react-native";
+// import LottieView from "lottie-react-native";
+import Ball from "../components/Ball";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -63,7 +65,8 @@ export default function HomeScreen({ navigation }) {
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-            <ActivityIndicator size="large" color={red} />
+            {/* <ActivityIndicator size="large" color={red} /> */}
+            <Ball />
         </View>
     ) : (
         <FlatList

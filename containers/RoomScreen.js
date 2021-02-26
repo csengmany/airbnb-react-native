@@ -10,7 +10,10 @@ import {
     Image,
     StatusBar,
 } from "react-native";
+
 import MapView from "react-native-maps";
+import { SwiperFlatList } from "react-native-swiper-flatlist";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 // import icon
@@ -19,13 +22,14 @@ import { AntDesign } from "@expo/vector-icons";
 // import colors
 import colors from "../assets/colors";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-
+import Ball from "../components/Ball";
 const { red, grey, lightGrey, white, yellow } = colors;
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-export default function RoomScreen({ route, navigation }) {
+export default function RoomScreen({ route, navigation, id, setId }) {
     const { itemId } = route.params;
+
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
     const [displayFullText, setDisplayFullText] = useState(false);
@@ -47,6 +51,8 @@ export default function RoomScreen({ route, navigation }) {
         return tab;
     };
     useEffect(() => {
+        setId(itemId);
+        console.log("mon id", id);
         const fetchData = async () => {
             try {
                 const response = await axios.get(
@@ -59,13 +65,14 @@ export default function RoomScreen({ route, navigation }) {
             }
         };
         fetchData();
-    }, []);
+    }, [setIsLoading, itemId, id, setId]);
 
     return isLoading ? (
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-            <ActivityIndicator size="large" color={red} />
+            {/* <ActivityIndicator size="large" color={red} /> */}
+            <Ball />
         </View>
     ) : (
         <ScrollView style={styles.container}>
@@ -75,12 +82,18 @@ export default function RoomScreen({ route, navigation }) {
             />
 
             <View style={styles.photos}>
-                <FlatList
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={{ backgroundColor: white }}
+                <SwiperFlatList
+                    autoplay
+                    autoplayDelay={2}
+                    autoplayLoop
+                    index={2}
+                    showPagination
+                    paginationStyle={{
+                        left: 0,
+                        right: 0,
+                        alignItems: "center",
+                    }}
                     data={data.photos}
-                    keyExtractor={(item) => item.picture_id}
                     renderItem={({ item }) => {
                         return (
                             <Image
@@ -92,7 +105,7 @@ export default function RoomScreen({ route, navigation }) {
                             />
                         );
                     }}
-                ></FlatList>
+                ></SwiperFlatList>
                 <View style={styles.price}>
                     <Text style={styles.priceText}>{data.price} €</Text>
                 </View>

@@ -20,7 +20,7 @@ const { red, grey, white } = colors;
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-function MapScreen({ navigation }) {
+function MapScreen({ navigation, id, setId }) {
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [coords, setCoords] = useState([]);
@@ -57,7 +57,8 @@ function MapScreen({ navigation }) {
                         newCoords.push({
                             latitude: item.location[1],
                             longitude: item.location[0],
-                            _id: item._id,
+                            id: item._id,
+                            name: item.title,
                         });
                     });
                     setCoords(newCoords);
@@ -94,11 +95,12 @@ function MapScreen({ navigation }) {
                                 longitude: item.longitude,
                             }}
                             key={index}
-                            onPress={() =>
+                            onPress={() => {
                                 navigation.navigate("Room", {
-                                    // itemId: item._id,
-                                })
-                            }
+                                    itemId: item.id,
+                                });
+                            }}
+                            title={item.name}
                         />
                     );
                 })}
