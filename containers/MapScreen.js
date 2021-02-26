@@ -23,33 +23,39 @@ const height = Dimensions.get("window").height;
 function MapScreen({ navigation, id, setId }) {
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
     const [coords, setCoords] = useState([]);
     const [data, setData] = useState([]);
 
     useEffect(() => {
         const askPermissionAndGetLocation = async () => {
-            const { status } = await Location.requestPermissionsAsync();
-            console.log(status);
-
-            if (status === "granted") {
-                console.log("Permission acceptée");
-                // Obtenir les coordonnées GPS
-                const location = await Location.getCurrentPositionAsync({
-                    enableHighAccuracy: true,
-                    accuracy: Location.Accuracy.High,
-                });
-                // console.log(location);
-            } else {
-                console.log("Permission refusée");
-            }
-        };
-        const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    "https://express-airbnb-api.herokuapp.com/rooms/around"
-                );
-                // console.log("data", response.data);
-                setData(response.data);
+                const { status } = await Location.requestPermissionsAsync();
+                console.log(status);
+                let response;
+                if (status === "granted") {
+                    console.log("Permission acceptée");
+                    // Obtenir les coordonnées GPS
+                    const location = await Location.getCurrentPositionAsync();
+                    // console.log(location);
+                    setLatitude(location.coords.latitude);
+                    setLongitude(location.coords.longitude);
+
+                    response = await axios.get(
+                        `https://express-airbnb-api.herokuapp.com/rooms/around?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`
+                    );
+                    // console.log("data", response.data);
+                    setData(response.data);
+
+                    // console.log("data", response.data);
+                    setData(response.data);
+                } else {
+                    console.log("Permission refusée");
+                    response = await axios.get(
+                        `https://express-airbnb-api.herokuapp.com/rooms/around`
+                    );
+                }
                 if (response.data) {
                     // retrieve the gps coordinates of data
                     const newCoords = [];
@@ -66,24 +72,25 @@ function MapScreen({ navigation, id, setId }) {
                     setIsLoading(false);
                 }
             } catch (error) {
-                console.log(error.response.data.error);
                 alert("An error occured");
             }
         };
+
         askPermissionAndGetLocation();
-        fetchData();
     }, []);
 
-    return (
+    return isLoading ? (
+        <ActivityIndicator />
+    ) : (
         <View>
             <MapView
                 style={styles.mapView}
                 // provider={PROVIDER_GOOGLE}
                 initialRegion={{
-                    latitude: 48.856614,
-                    longitude: 2.3522219,
-                    latitudeDelta: 0.1,
-                    longitudeDelta: 0.1,
+                    latitude: latitude ? latitude : 48.856614,
+                    longitude: longitude ? longitude : 2.3522219,
+                    latitudeDelta: 0.2,
+                    longitudeDelta: 0.2,
                 }}
                 showsUserLocation={true}
             >
