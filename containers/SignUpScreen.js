@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Constants from "expo-constants";
 import axios from "axios";
 import {
@@ -8,6 +8,7 @@ import {
     SafeAreaView,
     Platform,
     ActivityIndicator,
+    StatusBar,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -23,7 +24,7 @@ import LargeInput from "../components/LargeInput";
 import ConnectionButton from "../components/ConnectionButton";
 import RedirectButton from "../components/RedirectButton";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ setToken, setId }) {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [description, setDescription] = useState("");
@@ -35,9 +36,11 @@ export default function SignUpScreen({ setToken }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const submit = async () => {
-        setError("");
         if (email && username && description && password && confirmPassword) {
             if (password === confirmPassword) {
+                if (error !== "") {
+                    setError("");
+                }
                 try {
                     setIsLoading(true);
                     const response = await axios.post(
@@ -45,10 +48,11 @@ export default function SignUpScreen({ setToken }) {
                         { email, username, password, description }
                     );
 
-                    if (response.data) {
+                    if (response.data.token && response.data.id) {
                         // alert("Successful registration");
                         setIsLoading(false);
                         setToken(response.data.token);
+                        setId(response.data.id);
                     } else {
                         setIsLoading(false);
                         setError("An error occurred");
@@ -75,6 +79,11 @@ export default function SignUpScreen({ setToken }) {
     };
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar
+                barStyle={
+                    Platform.OS === "ios" ? "dark-content" : "light-content"
+                }
+            />
             <KeyboardAwareScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollViewContent}

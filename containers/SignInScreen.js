@@ -48,6 +48,7 @@ export default function SignInScreen({ setToken, setId }) {
                     setToken(response.data.token);
                     setId(response.data.id);
                 } else {
+                    setIsLoading(false);
                     setError("An error occurred");
                 }
             } catch (error) {
