@@ -7,7 +7,7 @@ const { red, grey, white, lightGrey } = colors;
 import { Ionicons } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 
-const Input = ({ placeholder, setFunction, secure, setSecure }) => {
+const Input = ({ placeholder, setFunction, secure, setSecure, value }) => {
     return (
         <View style={styles.horizontal}>
             <TextInput
@@ -18,6 +18,7 @@ const Input = ({ placeholder, setFunction, secure, setSecure }) => {
                     setFunction(text);
                 }}
                 secureTextEntry={secure}
+                value={value && value}
             />
             {(placeholder === "password" ||
                 placeholder === "confirm password") && (

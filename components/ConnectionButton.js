@@ -3,15 +3,17 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 // import colors
 import colors from "../assets/colors";
 const { red, grey, white } = colors;
-export default function ConnectionButton({ text, submitFunction }) {
+export default function ConnectionButton({ text, submitFunction, color }) {
     return (
         <TouchableOpacity
-            style={styles.btn}
+            style={color ? [styles.btn, styles.bg] : styles.btn}
             onPress={() => {
                 submitFunction();
             }}
         >
-            <Text style={styles.text}>{text}</Text>
+            <Text style={color ? [styles.text, styles.color] : styles.text}>
+                {text}
+            </Text>
         </TouchableOpacity>
     );
 }
@@ -31,5 +33,11 @@ const styles = StyleSheet.create({
         width: "50%",
         justifyContent: "center",
         alignItems: "center",
+    },
+    color: {
+        color: white,
+    },
+    bg: {
+        backgroundColor: red,
     },
 });

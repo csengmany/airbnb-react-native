@@ -10,9 +10,12 @@ import {
     ActivityIndicator,
     Dimensions,
     ImageBackground,
+    SafeAreaView,
+    StatusBar,
 } from "react-native";
 // import LottieView from "lottie-react-native";
 import Ball from "../components/Ball";
+import House from "../components/House";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -62,12 +65,11 @@ export default function HomeScreen({ navigation }) {
     }, []);
 
     return isLoading ? (
-        <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-            {/* <ActivityIndicator size="large" color={red} /> */}
+        Platform.OS === "ios" ? (
             <Ball />
-        </View>
+        ) : (
+            <House />
+        )
     ) : (
         <FlatList
             style={{ backgroundColor: white }}
@@ -124,6 +126,7 @@ export default function HomeScreen({ navigation }) {
     );
 }
 const styles = StyleSheet.create({
+    safeAreaView: { justifyContent: "center" },
     container: {
         borderBottomColor: lightGrey,
         borderBottomWidth: 1,

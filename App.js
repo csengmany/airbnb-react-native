@@ -220,9 +220,13 @@ export default function App() {
                                                     tabBarLabel: "Profile",
                                                 }}
                                             >
-                                                {() => (
-                                                    <SettingsScreen
+                                                {(props) => (
+                                                    <ProfileScreen
+                                                        {...props}
                                                         setToken={setToken}
+                                                        setId={setId}
+                                                        token={userToken}
+                                                        userId={userId}
                                                     />
                                                 )}
                                             </Stack.Screen>

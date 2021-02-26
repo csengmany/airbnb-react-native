@@ -2,7 +2,6 @@ import * as React from "react";
 import {
     View,
     Text,
-    FlatList,
     StyleSheet,
     Image,
     ActivityIndicator,
@@ -12,7 +11,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import * as Location from "expo-location";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-
+import Ball from "../components/Ball";
+import House from "../components/House";
 // import colors
 import colors from "../assets/colors";
 const { red, grey, white } = colors;
@@ -80,7 +80,11 @@ function MapScreen({ navigation, id, setId }) {
     }, []);
 
     return isLoading ? (
-        <ActivityIndicator />
+        Platform.OS === "ios" ? (
+            <Ball />
+        ) : (
+            <House />
+        )
     ) : (
         <View>
             <MapView

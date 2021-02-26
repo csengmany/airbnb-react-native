@@ -4,7 +4,7 @@ import { StyleSheet, TextInput } from "react-native";
 import colors from "../assets/colors";
 const { red, grey, white } = colors;
 
-export default function LargeInput({ placeholder, setFunction }) {
+export default function LargeInput({ placeholder, setFunction, value }) {
     return (
         <TextInput
             style={styles.input}
@@ -15,6 +15,7 @@ export default function LargeInput({ placeholder, setFunction }) {
             onChangeText={(text) => {
                 setFunction(text);
             }}
+            value={value && value}
         />
     );
 }

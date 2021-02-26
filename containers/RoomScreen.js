@@ -23,6 +23,7 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../assets/colors";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Ball from "../components/Ball";
+import House from "../components/House";
 const { red, grey, lightGrey, white, yellow } = colors;
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -78,7 +79,7 @@ export default function RoomScreen({
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
             {/* <ActivityIndicator size="large" color={red} /> */}
-            <Ball />
+            {Platform.OS === "ios" ? <Ball /> : <House />}
         </View>
     ) : (
         <ScrollView style={styles.container}>
@@ -91,8 +92,8 @@ export default function RoomScreen({
                 <SwiperFlatList
                     autoplay
                     autoplayDelay={2}
-                    autoplayLoop
-                    index={2}
+                    // autoplayLoop
+                    // index={2}
                     showPagination
                     paginationStyle={{
                         left: 0,
