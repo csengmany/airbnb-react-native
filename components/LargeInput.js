@@ -4,7 +4,12 @@ import { StyleSheet, TextInput } from "react-native";
 import colors from "../assets/colors";
 const { red, grey, white } = colors;
 
-export default function LargeInput({ placeholder, setFunction, value }) {
+export default function LargeInput({
+    placeholder,
+    setFunction,
+    value,
+    setIsInfosModified,
+}) {
     return (
         <TextInput
             style={styles.input}
@@ -14,6 +19,9 @@ export default function LargeInput({ placeholder, setFunction, value }) {
             maxLength={200}
             onChangeText={(text) => {
                 setFunction(text);
+                if (setIsInfosModified) {
+                    setIsInfosModified(true);
+                }
             }}
             value={value && value}
         />

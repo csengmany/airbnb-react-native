@@ -7,7 +7,16 @@ const { red, grey, white, lightGrey } = colors;
 import { Ionicons } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 
-const Input = ({ placeholder, setFunction, secure, setSecure, value }) => {
+const Input = ({
+    placeholder,
+    setFunction,
+    secure,
+    setSecure,
+    value,
+    setNewInformations,
+    setDisplayMessage,
+    setIsInfosModified,
+}) => {
     return (
         <View style={styles.horizontal}>
             <TextInput
@@ -16,6 +25,15 @@ const Input = ({ placeholder, setFunction, secure, setSecure, value }) => {
                 // secureTextEntry={boolean}
                 onChangeText={(text) => {
                     setFunction(text);
+                    if (setNewInformations) {
+                        setNewInformations(true);
+                    }
+                    if (setDisplayMessage) {
+                        setDisplayMessage(false);
+                    }
+                    if (setIsInfosModified) {
+                        setIsInfosModified(true);
+                    }
                 }}
                 secureTextEntry={secure}
                 value={value && value}

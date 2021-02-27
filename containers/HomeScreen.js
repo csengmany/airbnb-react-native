@@ -1,32 +1,23 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
-    Button,
     FlatList,
     StyleSheet,
     Image,
-    ActivityIndicator,
     Dimensions,
     ImageBackground,
-    SafeAreaView,
-    StatusBar,
 } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import axios from "axios";
+// import icon
+import { Entypo } from "@expo/vector-icons";
 // import LottieView from "lottie-react-native";
 import Ball from "../components/Ball";
 import House from "../components/House";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-// import icon
-import { Entypo } from "@expo/vector-icons";
 // import colors
 import colors from "../assets/colors";
 const { red, grey, lightGrey, white, yellow } = colors;
-
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 export default function HomeScreen({ navigation }) {
     const [data, setData] = useState([]);
