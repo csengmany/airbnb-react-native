@@ -198,97 +198,99 @@ export default function ProfileScreen({ setToken, setId, userId, token }) {
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <StatusBar barStyle="dark-content" />
-            {isLoading ? (
-                <ActivityIndicator
-                    color={red}
-                    size="large"
-                    style={styles.activityIndicator}
-                />
-            ) : (
-                <ScrollView contentContainerStyle={styles.scrollView}>
-                    <Text>user id : {userId}</Text>
-                    <View style={styles.topView}>
-                        <TouchableOpacity style={styles.pictureView}>
-                            {picture ? (
-                                <Image
-                                    source={{ uri: picture }}
-                                    style={styles.picture}
-                                    resizeMode="cover"
-                                />
-                            ) : (
-                                <FontAwesome5
-                                    name="user-alt"
-                                    size={100}
-                                    color={lightGrey}
-                                />
-                            )}
-                        </TouchableOpacity>
-                        <View style={styles.icons}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    uploadPicture();
-                                }}
-                            >
-                                <MaterialIcons
-                                    name="photo-library"
-                                    size={30}
-                                    color={grey}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.iconButton}
-                                onPress={() => {
-                                    takePicture();
-                                }}
-                            >
-                                <FontAwesome5
-                                    name="camera"
-                                    size={30}
-                                    color={grey}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <Input
-                        value={email}
-                        setFunction={setEmail}
-                        setDisplayMessage={setDisplayMessage}
-                        setIsInfosModified={setIsInfosModified}
-                        placeholder="email"
-                    />
-                    <Input
-                        value={userName}
-                        setFunction={setUserName}
-                        setDisplayMessage={setDisplayMessage}
-                        setIsInfosModified={setIsInfosModified}
-                        placeholder="username"
-                    />
-                    <LargeInput
-                        value={description}
-                        setFunction={setDescription}
-                        setDisplayMessage={setDisplayMessage}
-                        setIsInfosModified={setIsInfosModified}
-                        placeholder="description"
-                    />
-                    <View style={styles.view}>
-                        {displayMessage && (
-                            <Message
-                                message={displayMessage.message}
-                                color={displayMessage.color}
+
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                <View style={styles.topView}>
+                    <TouchableOpacity style={styles.pictureView}>
+                        {picture ? (
+                            <Image
+                                source={{ uri: picture }}
+                                style={styles.picture}
+                                resizeMode="cover"
+                            />
+                        ) : (
+                            <FontAwesome5
+                                name="user-alt"
+                                size={100}
+                                color={lightGrey}
                             />
                         )}
+                    </TouchableOpacity>
+                    <View style={styles.icons}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                uploadPicture();
+                            }}
+                        >
+                            <MaterialIcons
+                                name="photo-library"
+                                size={30}
+                                color={grey}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.iconButton}
+                            onPress={() => {
+                                takePicture();
+                            }}
+                        >
+                            <FontAwesome5
+                                name="camera"
+                                size={30}
+                                color={grey}
+                            />
+                        </TouchableOpacity>
                     </View>
+                </View>
+                <Input
+                    value={email}
+                    setFunction={setEmail}
+                    setDisplayMessage={setDisplayMessage}
+                    setIsInfosModified={setIsInfosModified}
+                    placeholder="email"
+                />
+                <Input
+                    value={userName}
+                    setFunction={setUserName}
+                    setDisplayMessage={setDisplayMessage}
+                    setIsInfosModified={setIsInfosModified}
+                    placeholder="username"
+                />
+                <LargeInput
+                    value={description}
+                    setFunction={setDescription}
+                    setDisplayMessage={setDisplayMessage}
+                    setIsInfosModified={setIsInfosModified}
+                    placeholder="description"
+                />
+                <View style={styles.view}>
+                    {displayMessage && (
+                        <Message
+                            message={displayMessage.message}
+                            color={displayMessage.color}
+                        />
+                    )}
+                </View>
+                {isLoading ? (
+                    <View style={styles.topView}>
+                        <ActivityIndicator
+                            color={red}
+                            size="large"
+                            style={styles.activityIndicator}
+                        />
+                    </View>
+                ) : (
                     <ConnectionButton
                         text="Update"
                         submitFunction={editInformations}
                     />
-                    <ConnectionButton
-                        text="Log Out"
-                        submitFunction={logOut}
-                        color={true}
-                    />
-                </ScrollView>
-            )}
+                )}
+                <ConnectionButton
+                    text="Log Out"
+                    submitFunction={logOut}
+                    color={true}
+                />
+            </ScrollView>
         </SafeAreaView>
     );
 }
