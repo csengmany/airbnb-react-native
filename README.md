@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-	<img src="./preview/airbnb.gif" width="800">
+	<img src="./preview/airbnb.gif" width="250">
 </p>
 
 ## Overview
