@@ -1,5 +1,5 @@
 <h1 align="center">
-	Airbnb Clone - React Native
+	Airbnb - React Native
 </h1>
 
 <p align="center">
@@ -8,8 +8,8 @@
 
 ## Overview
 
-**Airbnb Clone made at [Le Reacteur](https://www.lereacteur.io/) Bootcamp.**  
-6 screens are availables : Login, Signup, Home, Room, Around Me and Profile.
+This project is a clone of Airbnb mobile application.
+6 screens are available : Login, Signup, Home, Room, Around Me and Profile.
 
 ## Screenshots
 
