@@ -19,11 +19,11 @@
 		alt="Airbnb App Screenshot"
 		src="./preview/signin.png">
 <img
-		width="230"
+		width="200"
 			alt="Airbnb App Screenshot"
 		src="./preview/home.png">
 <img
-		width="230"
+		width="20"
 		alt="Airbnb App Screenshot"
 		src="./preview/room.png">
 <img
@@ -47,7 +47,7 @@
 
 Be sure, you have installed all dependencies and applications to run React Native Expo project on your computer : [Getting Started with React Native](https://facebook.github.io/react-native/docs/getting-started).
 
-This project works pretty fine for iOS **and** Android.
+This project is adapted for iOS and Android.
 
 ### Running the project
 
