@@ -15,19 +15,19 @@ This project is a clone of Airbnb mobile application.
 
 <div align="center">
 <img
-		width="220"
+		width="200"
 		alt="Airbnb App Screenshot"
 		src="./preview/signin.png">
 <img
-		width="220"
+		width="200"
 			alt="Airbnb App Screenshot"
 		src="./preview/home.png">
 <img
-		width="220"
+		width="200"
 		alt="Airbnb App Screenshot"
 		src="./preview/room.png">
 <img
-		width="220"
+		width="200"
 		alt="Airbnb App Screenshot"
 		src="./preview/aroundme.png">
 </div>
