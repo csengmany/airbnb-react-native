@@ -22,8 +22,6 @@
 		width="230"
 			alt="Airbnb App Screenshot"
 		src="./preview/home.png">
-        </div>
-        <div align="center">
 <img
 		width="230"
 		alt="Airbnb App Screenshot"
